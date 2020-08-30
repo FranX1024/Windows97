@@ -48,9 +48,10 @@ var menu = $new('div')
 .child(
   $new('div')
   .text('Reinstall')
+  .class('menu-button')
   .on('click', function() {
     localStorage.clear();
-    location.reload();      
+    location.reload();
   })
 );
 
