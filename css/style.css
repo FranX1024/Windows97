@@ -1,0 +1,91 @@
+#toolbar {
+  width: calc(100% - 6px);
+  height: 24px;
+  padding-top: 4px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+}
+
+#toolbar-content {
+  display: inline;
+}
+
+#desktop {
+  background: linear-gradient(to right, #000080, #1084d0);
+  width: 100%;
+  height: calc(100% - 50px);
+  padding: 10px;
+}
+
+.time-display-container {
+  display: inline;
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  border: 2px inset;
+  vertical-align: baseline;
+  padding-bottom: 1px;
+  background-color: #b8b8b8;
+}
+
+#time-display {
+  font-size: 10px;
+}
+
+.icon {
+  width: 64px;
+  user-select: none;
+  text-align: center;
+  outline: none;
+}
+
+.icon-title {
+  color: white;
+  font-size: 11px;
+  font-weight: normal;
+  padding: 2px;
+}
+.icon:focus {
+  filter: brightness(0.5) contrast(1.2) sepia(100%) hue-rotate(180deg) saturate(20);
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: "Pixelated MS Sans Serif";
+}
+
+#bootscreen {
+  padding: 10px;
+  font-weight: bold;
+  background-color: black;
+  color: white;
+  width: 100%;
+  height: 100%;
+}
+
+.menu-button {
+  border: none;
+  border-top: 1px solid grey;
+  outline: none;
+  background-color: transparent;
+  color: black;
+  user-select: none;
+  padding: 2px;
+}
+
+.menu-button:nth-child(1) {
+  border-top: none;
+}
+
+.menu-button:hover {
+  background-color: blue;
+  color: white;
+}
+
+.window-body {
+  min-height: 50px;
+  min-width: 100px;
+}

@@ -1,0 +1,37 @@
+.terminal {
+  border: none;
+  outline: none;
+  padding: 2px;
+  margin: 2px;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  word-wrap: break-word;
+  font-size: 10px;
+  font-family: monospace;
+}
+
+.terminal-input {
+  border: none;
+  outline: none;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  width: 100%;
+  font-size: 10px;
+  font-family: monospace;
+}
+
+.terminal-output {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 10px;
+  font-family: monospace;
+}
+
+.terminal-prompt {
+  color: white;
+  font-size: 10px;
+  font-family: monospace;
+}
