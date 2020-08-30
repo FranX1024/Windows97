@@ -5,6 +5,7 @@ if(!$fs.initialized()) {
   $fs.mkdir('C:/desktop');
   $fs.mkdir('C:/apps');
   $fs.mkdir('C:/documents');
+  $fs.mkdir('C:/appdata');
 }
 /* load apps */
 var files = $fs.list('C:/apps'), allgood = true;
