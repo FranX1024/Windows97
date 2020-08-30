@@ -159,9 +159,8 @@ var $cmd = {
   }
 };
 
-function $exe(cmd, envin) {
-  var env = {'cd': 'C:'};
-  Object.assign(env, envin);
+function $exe(cmd, env) {
+  if(typeof env['cd'] != 'string') env['cd'] = 'C:';
   var arg = cmd.split(' ');
   try {
     if(arg[0] in $app) return $app[arg[0]].exec(arg.slice(1), env);
