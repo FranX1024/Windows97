@@ -143,12 +143,17 @@ var $winui = {
       }
       if(winid == null) return;
       if($winui.winlist[winid].container.style.zIndex != $winui.zindex) $winui.focus($winui.winlist[winid]);
+      $$('iframe').forEach(fw => fw.style({'pointer-events': 'none'}));
     }
+  },
+  mouseUp: function() {
+    $$('iframe').forEach(fw => fw.style({'pointer-events': 'auto'}));
   }
 }
 
 document.addEventListener('mousemove', $winui.mouseMove);
 document.addEventListener('mousedown', $winui.mouseDown);
+document.addEventListener('mouseup', $winui.mouseUp);
 
 function $alert(title, text, callback) {
   var win = $window({title: title, width: 320, height: false, resize: false});
