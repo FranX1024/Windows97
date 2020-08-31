@@ -90,24 +90,6 @@ var $app = {
       $(win.body).style({'margin': '2px'}).child(options).child(input);
     }
   },
-  'readme': {
-    icon: './icons/apps/readme.png',
-    title: 'README',
-    exec: function() {
-      var win = $window({
-        title: 'README',
-        width: 480,
-        height: 640
-      });
-      $(win.body)
-      .style({'margin': '2px'})
-      .child(
-        $new('iframe')
-        .style({'width': 'calc(100% - 4px)', 'height': 'calc(100% - 4px)'})
-        .attr('src', './res/readme.md')
-      );
-    }
-  },
   'fileman': {
     icon: './icons/apps/storage.png',
     title: 'Storage',
