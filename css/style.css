@@ -47,6 +47,14 @@
   font-weight: normal;
   padding: 2px;
 }
+
+.icon-title-on-white {
+  color: black;
+  font-size: 11px;
+  font-weight: normal;
+  padding: 2px;
+}
+
 .icon:focus {
   filter: brightness(0.5) contrast(1.2) sepia(100%) hue-rotate(180deg) saturate(20);
 }
@@ -83,4 +91,11 @@ body {
 .window-body {
   min-height: 50px;
   min-width: 100px;
+}
+
+.small-button {
+  vertical-align: top;
+  min-height: 20px;
+  min-width: 32px;
+  padding: 0;
 }

@@ -92,10 +92,10 @@ var $app = {
   },
   'readme': {
     icon: './icons/apps/readme.png',
-    title: 'README.txt',
+    title: 'README',
     exec: function() {
       var win = $window({
-        title: 'README.txt',
+        title: 'README',
         width: 480,
         height: 640
       });
@@ -106,6 +106,104 @@ var $app = {
         .style({'width': 'calc(100% - 4px)', 'height': 'calc(100% - 4px)'})
         .attr('src', './res/readme.html')
       );
+    }
+  },
+  'fileman': {
+    icon: './icons/apps/storage.png',
+    title: 'Storage',
+    exec: function() {
+      var win = $window({
+        title: 'File Explorer',
+        width: 480,
+        height: 480
+      });
+      var path = 'C:';
+      var pinput = $new('input').style({
+        'width': 'calc(100% - 70px)',
+        'height': '20px',
+        'outline': 'none',
+        'margin-bottom': '4px',
+        'font-family': 'monospace',
+        'margin-left': '2px',
+        'margin-right': '2px'
+      }).text(path);
+
+      var container = $new('div').style({
+        'width': 'calc(100% - 4px)',
+        'height': 'calc(100% - 28px)',
+        'background-color': 'white',
+        'border': '2px inset',
+        'overflow-y': 'auto',
+        'overflow-x': 'none'
+      });
+
+      var refreshContainer = function() {
+        path = pinput.attr('value');
+        var data;
+        try {
+          data = $fs.list(path);
+        } catch(er) {
+          $alert('ERROR', er.stack);
+          return;
+        }
+        container.empty();
+        for(var i = 0; i < data.length; i++) {
+          var title = data[i];
+          var isdir = $fs.isDir($fs.join(path, data[i]));
+          var iconsrc = (isdir ? './icons/system/directory.png' : './icons/system/file.png');
+          var icon = $new('table')
+          .attr('name', data[i])
+          .class('icon')
+          .style({'display': 'inline'})
+          .attr('tabIndex', '1')
+          .child(
+            $new('tbody')
+            .child(
+              $new('tr')
+              .child(
+                $new('img')
+                .attr('draggable', 'false')
+                .attr('src', iconsrc)
+              )
+            )
+            .child(
+              $new('tr')
+              .class('icon-title-on-white')
+              .text(title)
+            )
+          );
+          if(isdir) icon.on('click', function(e) {
+            if(e.detail == 2) {
+              pinput.attr('value', $fs.join(path, $(e.currentTarget).attr('name')));
+              refreshContainer();
+            }
+          });
+          container.child(icon);
+        }
+      }
+
+      $(win.body)
+      .style({'margin': '2px'})
+      .child(
+        $new('button')
+        .text(String.fromCharCode(11172))
+        .class('small-button')
+        .on('click', function() {
+          path = $fs.trim(path).split('/').slice(0, -1).join('/');
+          pinput.attr('value', path);
+          refreshContainer();
+        })
+      )
+      .child(pinput)
+      .child(
+        $new('button')
+        .text(String.fromCharCode(11171))
+        .class('small-button')
+        .on('click', refreshContainer)
+      )
+      .child(container);
+      pinput.attr('value', path);
+      refreshContainer();
     }
   }
 };

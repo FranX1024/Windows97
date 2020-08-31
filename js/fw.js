@@ -78,6 +78,9 @@ function $j(el) {
     show() {
       this.element.style.display = 'none';
     },
+    empty() {
+      this.element.innerHTML = '';
+    },
     is(selector) {
       if(typeof(selector) == 'string') return this.element.matches(selector);
       if(typeof(selector) == 'object') {
