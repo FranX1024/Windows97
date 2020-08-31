@@ -104,7 +104,7 @@ var $app = {
       .child(
         $new('iframe')
         .style({'width': 'calc(100% - 4px)', 'height': 'calc(100% - 4px)'})
-        .attr('src', './res/readme.html')
+        .attr('src', './res/readme.md')
       );
     }
   },

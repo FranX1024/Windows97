@@ -15,7 +15,7 @@ var $fs = {
   getLocation(path) {
     var dirs = this.trim(path).split('/');
     if(dirs.length ==  1 && dirs[0] == '') return '0';
-    if(dirs[0] != 'C:') throw Error("Only C: drive available!");
+    if(dirs[0] != 'C:' && dirs[0] != 'c:') throw Error("Only C: drive available!");
     var curid = '0';
     for(var i = 1; i < dirs.length; i++) {
       var dir = encodeURIComponent(dirs[i]);
