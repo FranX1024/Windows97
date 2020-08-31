@@ -68,7 +68,6 @@ body {
 
 .menu-button {
   border: none;
-  border-top: 1px solid grey;
   outline: none;
   background-color: transparent;
   color: black;
@@ -76,12 +75,8 @@ body {
   padding: 2px;
 }
 
-.menu-button:nth-child(1) {
-  border-top: none;
-}
-
 .menu-button:hover {
-  background-color: blue;
+  background-color: #00A;
   color: white;
 }
 
