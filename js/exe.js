@@ -53,6 +53,7 @@ var $cmd = {
 };
 
 function $exe(cmd, env) {
+  if(typeof env == 'undefined') env = {};
   if(typeof env['cd'] != 'string') env['cd'] = 'C:';
   var arg = cmd.split(' ');
   try {

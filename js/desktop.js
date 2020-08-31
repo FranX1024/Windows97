@@ -9,9 +9,7 @@ const $desktop = {
         dirs.push({
           title: data[i],
           icon: './icons/system/directory.png',
-          exec: function() {
-
-          }
+          exec: Function('$exe("fileman C:/desktop/' + data[i] + '")')
         });
       } else {
         files.push({

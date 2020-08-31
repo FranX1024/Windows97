@@ -111,13 +111,14 @@ var $app = {
   'fileman': {
     icon: './icons/apps/storage.png',
     title: 'Storage',
-    exec: function() {
+    exec: function(arg) {
       var win = $window({
         title: 'File Explorer',
         width: 480,
         height: 480
       });
       var path = 'C:';
+      if(typeof arg != 'undefined') path = arg.join(' ');
       var pinput = $new('input').style({
         'width': 'calc(100% - 70px)',
         'height': '20px',
