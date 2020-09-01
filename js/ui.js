@@ -45,7 +45,10 @@ function $window(cparam) {
   if(param.resize) body.style.resize = 'both';
 
   var tbutton = document.createElement('button');
-  tbutton.innerText = param.title.substring(0, 12);
+  tbutton.innerText = param.title;
+  tbutton.style.textOverflow = 'ellipsis';
+  tbutton.style.overflow = 'hidden';
+  tbutton.style.whiteSpace = 'nowrap';
   tbutton.style.width = '100px';
   tbutton.style.userSelect = 'none';
   tbutton.style.marginLeft = '2px';

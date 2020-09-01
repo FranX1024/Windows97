@@ -52,7 +52,11 @@ var $app = {
   'notepad': {
     icon: './icons/apps/notepad.png',
     title: 'Notepad',
-    exec: function() {
+    exec: function(arg) {
+
+      var path = null;
+      if(typeof arg != 'undefined' && arg.length >= 1) path = arg.join(' ');
+
       var win = $window({
         title: 'Notepad',
         width: 640,
@@ -61,13 +65,10 @@ var $app = {
 
       var file_menu = $new('div').class('window').style({'width': '100px'})
       .child(
-        $new('div').class('menu-button').text('Save').on('click', ()=>$alert('Trolled', 'Haha! This is a fake Notepad!'))
+        $new('div').class('menu-button').text('Save').on('click', save)
       )
       .child(
-        $new('div').class('menu-button').text('Save As').on('click', ()=>$alert('Trolled', 'Haha! This is a fake Notepad!'))
-      )
-      .child(
-        $new('div').class('menu-button').text('Open').on('click', ()=>$alert('Trolled', 'Haha! This is a fake Notepad!'))
+        $new('div').class('menu-button').text('Save As').on('click', saveAs)
       );
 
       var options = $new('div').style({
@@ -87,20 +88,23 @@ var $app = {
         'font-family': 'monospace'
       });
 
+      if(path != null) input.text($fs.read(path));
+
       $(win.body).style({'margin': '2px'}).child(options).child(input);
     }
   },
   'fileman': {
     icon: './icons/apps/storage.png',
     title: 'Storage',
-    exec: function(arg) {
+    exec: function(arg, env) {
+      if(typeof env == 'undefined') env = {};
       var win = $window({
-        title: 'File Explorer',
+        title: (env['select_file'] == 'yes') ? 'Select a file' : 'File Explorer',
         width: 480,
         height: 480
       });
       var path = 'C:';
-      if(typeof arg != 'undefined') path = arg.join(' ');
+      if(arg && arg.constructor == Array && arg.length >= 1) path = arg.join(' ');
       var pinput = $new('input').style({
         'width': 'calc(100% - 70px)',
         'height': '20px',
@@ -126,34 +130,29 @@ var $app = {
         try {
           data = $fs.list(path);
         } catch(er) {
-          $alert('ERROR', er.stack);
+          $alert('ERROR', er.message);
           return;
         }
         container.empty();
+        data.sort((a, b) => $fs.isDir($fs.join(path, a)) > $fs.isDir($fs.join(path, b)) ? -1 : 1);
         for(var i = 0; i < data.length; i++) {
           var title = data[i];
           var isdir = $fs.isDir($fs.join(path, data[i]));
           var iconsrc = (isdir ? './icons/system/directory.png' : './icons/system/file.png');
-          var icon = $new('table')
+          var icon = $new('div')
           .attr('name', data[i])
           .class('icon')
-          .style({'display': 'inline'})
+          .style({'display': 'inline-block', 'margin-top': '10px'})
           .attr('tabIndex', '1')
           .child(
-            $new('tbody')
-            .child(
-              $new('tr')
-              .child(
-                $new('img')
-                .attr('draggable', 'false')
-                .attr('src', iconsrc)
-              )
-            )
-            .child(
-              $new('tr')
-              .class('icon-title-on-white')
-              .text(title)
-            )
+            $new('img')
+            .class('icon-icon')
+            .attr('src', iconsrc)
+          )
+          .child(
+            $new('div')
+            .class('icon-title-on-white')
+            .text(title)
           );
           if(isdir) icon.on('click', function(e) {
             if(e.detail == 2) {
@@ -161,6 +160,14 @@ var $app = {
               refreshContainer();
             }
           });
+          else {
+            if(env['select_file'] == 'yes') icon.on('click', function(e) {
+              if(e.detail == 2) {
+                env['onselect']($fs.join(path, $(e.currentTarget).attr('name')));
+                $winui.destroy(win.id);
+              }
+            });
+          }
           container.child(icon);
         }
       }
@@ -172,6 +179,7 @@ var $app = {
         .text(String.fromCharCode(11172))
         .class('small-button')
         .on('click', function() {
+          if(path == 'C:') return;
           path = $fs.trim(path).split('/').slice(0, -1).join('/');
           pinput.attr('value', path);
           refreshContainer();
