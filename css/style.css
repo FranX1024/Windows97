@@ -81,6 +81,7 @@ body {
   color: black;
   user-select: none;
   padding: 2px;
+  min-width: 120px;
 }
 
 .menu-button:hover {

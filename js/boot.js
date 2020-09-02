@@ -39,8 +39,7 @@ $desktop.refresh();
   .style({
     'position': 'absolute',
     'bottom': '31px',
-    'left': '0px',
-    'width': '100px'
+    'left': '0px'
   })
   .child(
     $new('div')

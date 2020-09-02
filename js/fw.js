@@ -114,28 +114,47 @@ function $j(el) {
     },
     menu(jq, apclass) {
       var me = this;
-      jq.style({'position': 'absolute'});
-      var open = function() {
-        jq.style({'display': 'block'});
-        me.on('click', close);
-        if(apclass) me.class(apclass);
-        me.rmlistener('click', open);
-        jq.on('click', close);
-        jq.rmlistener('click', open);
+      jq.style({'position': 'absolute', 'display': 'none'});
+      var opened = false;
+      var handler = function(e) {
+        if(!opened) {
+          opened = true;
+          jq.style({'display': 'block'});
+          if(apclass) me.class(apclass);
+          $('body').on('click', waiting_handler);
+        } else {
+          opened = false;
+          jq.style({'display': 'none'});
+          if(apclass) me.rmclass(apclass);
+          $('body').rmlistener('click', handler);
+        }
       }
-      var close = function() {
-        jq.style({'display': 'none'});
-        me.on('click', open);
-        if(apclass) me.rmclass(apclass);
-        me.rmlistener('click', close);
-        jq.on('click', open);
-        jq.rmlistener('click', close);
+      var waiting_handler = function(e) {
+        $('body').rmlistener('click', waiting_handler);
+        $('body').on('click', handler);
       }
-      me.on('blur', function() {
-        if(!jq.is(':focus')) setTimeout(close, 100);
-      });
-      close();
+      me.on('click', handler);
       return this;
+    },
+    contextmenu(node) {
+      var me = this;
+      this.on('contextmenu', function(e) {
+        e.preventDefault();
+        if(e.buttons == 2) {
+          $('body').child(node);
+          node.style({
+            'display': 'block',
+            'position': 'absolute',
+            'top': e.clientY + 'px',
+            'left': e.clientX + 'px'
+          });
+          $('body').on('click', close);
+        }
+      });
+      var close = function() {
+        $('body').rmchild(node);
+        $('body').rmlistener('click', close);
+      }
     }
   }
   else return null;
