@@ -58,10 +58,37 @@ var $app = {
       if(typeof arg != 'undefined' && arg.length >= 1) path = arg.join(' ');
 
       var win = $window({
-        title: 'Notepad',
+        title: path ? 'Notepad - ' + path : 'Notepad - new file',
         width: 640,
         height: 480
       });
+
+      function save() {
+        if(path == null) saveAs();
+        else $fs.write(path, input.attr('value'));
+      }
+
+      function saveAs() {
+        $exe('fileman', {
+          'select_file': 'yes',
+          'onselect': function(npath) {
+            path = npath;
+            $fs.write(path, input.attr('value'));
+            $(win.titlebar).find('.title-bar-text').text('Notepad - ' + path);
+          }
+        });
+      }
+
+      function open() {
+        $exe('fileman', {
+          'select_file': 'yes',
+          'onselect': function(npath) {
+            path = npath;
+            input.attr('value', $fs.read(path));
+            $(win.titlebar).find('.title-bar-text').text('Notepad - ' + path);
+          }
+        });
+      }
 
       var file_menu = $new('div').class('window').style({'width': '100px'})
       .child(
@@ -69,6 +96,9 @@ var $app = {
       )
       .child(
         $new('div').class('menu-button').text('Save As').on('click', saveAs)
+      )
+      .child(
+        $new('div').class('menu-button').text('Open file').on('click', open)
       );
 
       var options = $new('div').style({
@@ -88,7 +118,7 @@ var $app = {
         'font-family': 'monospace'
       });
 
-      if(path != null) input.text($fs.read(path));
+      if(path != null) input.attr('value', $fs.read(path));
 
       $(win.body).style({'margin': '2px'}).child(options).child(input);
     }
@@ -100,9 +130,12 @@ var $app = {
       if(typeof env == 'undefined') env = {};
       var win = $window({
         title: (env['select_file'] == 'yes') ? 'Select a file' : 'File Explorer',
-        width: 480,
-        height: 480
+        width: 400,
+        height: 400
       });
+      if(env['select_file'] == 'yes') {
+        $(win.titlebar).find('.title-bar-controls').rmchild($(win.titlebar).find('[aria-label="Minimize"]'))
+      }
       var path = 'C:';
       if(arg && arg.constructor == Array && arg.length >= 1) path = arg.join(' ');
       var pinput = $new('input').style({
@@ -167,6 +200,12 @@ var $app = {
                 $winui.destroy(win.id);
               }
             });
+            else {
+              var appname = $ext['*'];
+              var ext = data[i].split('.'); ext = ext[ext.length - 1];
+              if(ext in $ext) appname = $ext[ext];
+              icon.on('click', eval('e => e.detail == 2 ? $exe("' + appname + ' ' + $fs.join(path, data[i]) + '") : 0'));
+            }
           }
           container.child(icon);
         }

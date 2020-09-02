@@ -49,6 +49,14 @@ var $cmd = {
   },
   'help': function(arg, env) {
     return "Available commands:\n" + Object.keys(this).map(item => '> ' + item).join('\n');
+  },
+  'javascript': function(arg, env) {
+    try {
+      eval($fs.read(arg.join(' ')));
+    } catch(er) {
+      console.log(er.stack);
+      $alert('Error', er.message);
+    }
   }
 };
 

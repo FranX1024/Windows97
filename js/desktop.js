@@ -12,12 +12,13 @@ const $desktop = {
           exec: Function('$exe("fileman C:/desktop/' + data[i] + '")')
         });
       } else {
+        var appname = $ext['*'];
+        var ext = data[i].split('.'); ext = ext[ext.length - 1];
+        if(ext in $ext) appname = $ext[ext];
         files.push({
           title: data[i],
           icon: './icons/system/file.png',
-          exec: function() {
-
-          }
+          exec: Function('$exe("' + appname + ' C:/desktop/' + data[i] + '")')
         });
       }
     }

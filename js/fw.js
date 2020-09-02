@@ -89,6 +89,9 @@ function $j(el) {
       }
       return false;
     },
+    find(selector) {
+      return $(this.element.querySelector(selector));
+    },
     drag(jq) {
       jq = jq || this;
       var me = this;
