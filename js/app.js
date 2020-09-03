@@ -90,7 +90,7 @@ var $app = {
         });
       }
 
-      var file_menu = $new('div').class('window').style({'width': '100px'})
+      var file_menu = $new('div').class('window')
       .child(
         $new('div').class('menu-button').text('Save').on('click', save)
       )

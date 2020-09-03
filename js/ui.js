@@ -119,13 +119,15 @@ var $winui = {
       var ox = e.clientX - e.movementX, oy = e.clientY - e.movementY;
       var winid = null, zindex = 0;
       for(var id in $winui.winlist) {
-        var br = $winui.winlist[id].titlebar.getBoundingClientRect();
+        var br = $winui.winlist[id].container.getBoundingClientRect();
         if(br.top <= oy && br.left <= ox && br.bottom >= oy && br.right >= ox && $winui.winlist[id].container.style.zIndex > zindex) {
           zindex = $winui.winlist[id].container.style.zIndex;
           winid = id;
         }
       }
       if(winid == null) return;
+      var br = $winui.winlist[winid].titlebar.getBoundingClientRect();
+      if(br.top > oy || br.left > ox || br.bottom < oy || br.right < ox) return;
       if($winui.winlist[winid].container.style.zIndex != $winui.zindex) $winui.focus($winui.winlist[winid]);
       var el = $winui.winlist[winid].container;
       var posy = Number(el.style.top.slice(0, -2)) + e.movementY, posx = Number(el.style.left.slice(0, -2)) + e.movementX;
