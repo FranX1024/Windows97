@@ -140,6 +140,7 @@ function $j(el) {
       var me = this;
       this.on('contextmenu', function(e) {
         e.preventDefault();
+        e.stopPropagation();
         if(e.buttons == 2) {
           $('body').child(node);
           node.style({
@@ -155,6 +156,7 @@ function $j(el) {
         $('body').rmchild(node);
         $('body').rmlistener('click', close);
       }
+      return this;
     }
   }
   else return null;

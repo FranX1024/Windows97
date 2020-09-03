@@ -57,6 +57,28 @@ var $cmd = {
       console.log(er.stack);
       $alert('Error', er.message);
     }
+  },
+  'rename': function(arg, env) {
+    $prompt('Rename file', 'Enter the new name...', function(entered, newname) {
+      if(entered) {
+        var path = $fs.trim(arg.join(' ')).split('/');
+        var parent = path.slice(0, -1).join('/');
+        var curname = path[path.length - 1];
+        if($fs.exists(parent + '/' + newname)) $alert('Error', 'Path already exists.');
+        /* do the work */
+        var place = $fs.getLocation(parent);
+        var rawdata = localStorage.getItem(place);
+        var newdata = rawdata.replace('<' + encodeURIComponent(curname), '<' + encodeURIComponent(newname));
+        localStorage.setItem(place, newdata);
+        if(parent == 'C:/desktop') $desktop.refresh();
+      }
+    });
+  },
+  'delete': function(arg, env) {
+    $fs.remove(arg.join(' '));
+    var path = $fs.trim(arg.join(' ')).split('/');
+    var parent = path.slice(0, -1).join('/');
+    if(parent == 'C:/desktop') $desktop.refresh();
   }
 };
 
@@ -70,5 +92,12 @@ function $exe(cmd, env) {
     else throw Error('Command not found.');
   } catch(er) {
     throw er;
+  }
+}
+
+function $command(s) {
+  var d = s;
+  return function() {
+    $exe(d);
   }
 }
