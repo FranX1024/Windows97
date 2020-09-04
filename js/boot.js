@@ -81,3 +81,7 @@ try {
   $('body').child(menu);
   $('#start-button').menu(menu, 'active');
 })();
+
+$('body').on('contextmenu', function(e) {
+  e.preventDefault();
+});
