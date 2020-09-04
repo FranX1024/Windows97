@@ -27,10 +27,19 @@ if(!$fs.initialized()) {
 })();
 
 /* load extension settings */
-var $ext = JSON.parse($fs.read('C:/config/ext'));
+var $ext = {'*': 'notepad'};
+try {
+  JSON.parse($fs.read('C:/config/ext'));
+} catch(er) {
+  $alert('Fatal Error', 'Could not load C:/config/ext due to following error\n' + er.msg + '\nUntil ext file is fixed, default app for opening all files will be Notepad.');
+}
 
 /* refresh desktop */
-$desktop.refresh();
+try {
+  $desktop.refresh();
+} catch(er) {
+  $alert('Fatal Error', 'Could not load Desktop due to following error\n' + er.message + '\nTo fix this error reinstall from start menu, or ask for help of a professional.');
+}
 
 (function() {
   /* create start menu */
@@ -49,9 +58,9 @@ $desktop.refresh();
   )
   .child(
     $new('div')
-    .text('Fullscreen')
+    .text('Open file manager')
     .class('menu-button')
-    .on('click', () => $('body').fullscreen())
+    .on('click', $command('fileman'))
   )
   .child(
     $new('div')
@@ -61,7 +70,13 @@ $desktop.refresh();
       localStorage.clear();
       location.reload();
     })
-  );
+  )
+  .child(
+    $new('div')
+    .text('Fullscreen')
+    .class('menu-button')
+    .on('click', () => $('body').fullscreen())
+  )
 
   $('body').child(menu);
   $('#start-button').menu(menu, 'active');

@@ -27,7 +27,7 @@ var $app = {
         )
       );
       var env = {'cd': 'C:'};
-      if(arg && arg.length != 0) env['cd'] = arg.join(' ');
+      if(arg.constructor == Array && arg.length != 0) env['cd'] = arg.join(' ');
       prompt.text($fs.join(env['cd'], '>' + String.fromCharCode(160)));
       prompt.parent().style({'width': prompt.element.offsetWidth + 'px', 'padding': '0'});
       input.on('change', function() {
