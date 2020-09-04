@@ -139,17 +139,15 @@ function $j(el) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
-        if(e.buttons == 2) {
-          $('body').child(node);
-          node.style({'z-index': $winui.zindex + 3});
-          node.style({
-            'display': 'block',
-            'position': 'absolute',
-            'top': e.clientY + 'px',
-            'left': e.clientX + 'px'
-          });
-          $('body').on('click', close);
-        }
+        $('body').child(node);
+        node.style({'z-index': $winui.zindex + 3});
+        node.style({
+          'display': 'block',
+          'position': 'absolute',
+          'top': e.clientY + 'px',
+          'left': e.clientX + 'px'
+        });
+        $('body').on('click', close);
       });
       var close = function() {
         $('body').rmchild(node);
