@@ -2,7 +2,7 @@ var $app = {
   'terminal': {
     icon: './icons/apps/terminal.png',
     title: 'Terminal',
-    exec: function() {
+    exec: function(arg) {
       var win = $window({
         title: 'Terminal',
         width: 640,
@@ -27,6 +27,8 @@ var $app = {
         )
       );
       var env = {'cd': 'C:'};
+      if(arg && arg.length != 0) env['cd'] = arg.join(' ');
+      prompt.text($fs.join(env['cd'], '>' + String.fromCharCode(160)));
       prompt.parent().style({'width': prompt.element.offsetWidth + 'px', 'padding': '0'});
       input.on('change', function() {
         var result, error = false;
@@ -157,6 +159,44 @@ var $app = {
         'overflow-x': 'none'
       });
 
+      container.contextmenu(
+        $new('div')
+        .class('window')
+        .child(
+          $new('div').class('menu-button').text('Create new file').on('click', newfile)
+        )
+        .child(
+          $new('div').class('menu-button').text('Create new directory').on('click', newdirectory)
+        )
+        .child(
+          $new('div').class('menu-button').text('Open terminal here').on('click', () => $exe('terminal ' + path))
+        )
+      );
+      function newfile() {
+        $prompt('New file', 'Enter the name of the new file...', function(entered, name) {
+          if(entered) {
+            try {
+              $fs.write($fs.join(path, name), '');
+              refreshContainer();
+            } catch(er) {
+              $alert('Error', er.message);
+            }
+          }
+        });
+      }
+      function newdirectory() {
+        $prompt('New file', 'Enter the name of the new directory...', function(entered, name) {
+          if(entered) {
+            try {
+              $fs.mkdir($fs.join(path, name));
+              refreshContainer();
+            } catch(er) {
+              $alert('Error', er.message);
+            }
+          }
+        });
+      }
+
       var refreshContainer = function() {
         path = pinput.attr('value');
         var data;
@@ -207,6 +247,16 @@ var $app = {
               icon.on('click', eval('e => e.detail == 2 ? $exe("' + appname + ' ' + $fs.join(path, data[i]) + '") : 0'));
             }
           }
+          icon.contextmenu(
+            $new('div')
+            .class('window')
+            .child(
+              $new('div').class('menu-button').text('Rename ' + (isdir?'directory':'file')).on('click', $command('rename ' + $fs.join(path, data[i]), {'fileman': refreshContainer}))
+            )
+            .child(
+              $new('div').class('menu-button').text('Delete ' + (isdir?'directory':'file')).on('click', $command('del ' + $fs.join(path, data[i]), {}, refreshContainer))
+            )
+          );
           container.child(icon);
         }
       }
@@ -218,7 +268,7 @@ var $app = {
         .text(String.fromCharCode(11172))
         .class('small-button')
         .on('click', function() {
-          if(path == 'C:') return;
+          if($fs.trim(path) == 'C:') return;
           path = $fs.trim(path).split('/').slice(0, -1).join('/');
           pinput.attr('value', path);
           refreshContainer();

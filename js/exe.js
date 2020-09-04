@@ -64,13 +64,17 @@ var $cmd = {
         var path = $fs.trim(arg.join(' ')).split('/');
         var parent = path.slice(0, -1).join('/');
         var curname = path[path.length - 1];
-        if($fs.exists(parent + '/' + newname)) $alert('Error', 'Path already exists.');
+        if($fs.exists(parent + '/' + newname)) {
+          $alert('Error', 'Path already exists.');
+          return;
+        }
         /* do the work */
         var place = $fs.getLocation(parent);
         var rawdata = localStorage.getItem(place);
         var newdata = rawdata.replace('<' + encodeURIComponent(curname), '<' + encodeURIComponent(newname));
         localStorage.setItem(place, newdata);
         if(parent == 'C:/desktop') $desktop.refresh();
+        if(env.fileman) env.fileman();
       }
     });
   },
@@ -95,9 +99,10 @@ function $exe(cmd, env) {
   }
 }
 
-function $command(s) {
+function $command(s, env, callback) {
   var d = s;
   return function() {
-    $exe(d);
+    $exe(d, env);
+    if(callback) callback();
   }
 }

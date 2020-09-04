@@ -216,6 +216,7 @@ function $prompt(title, text, callback) {
     $winui.destroy(win.id);
     if(callback) callback(false, null);
   }
+  $(input).select();
   win.titlebar.querySelector('.title-bar-controls').removeChild(win.titlebar.querySelector('button[aria-label="Minimize"]'));
   return win;
 }

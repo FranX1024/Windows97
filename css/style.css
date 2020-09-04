@@ -46,6 +46,9 @@
   font-size: 11px;
   font-weight: normal;
   padding: 2px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .icon-title-on-white {
@@ -53,6 +56,9 @@
   font-size: 11px;
   font-weight: normal;
   padding: 2px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .icon:focus {

@@ -121,17 +121,14 @@ function $j(el) {
           opened = true;
           jq.style({'display': 'block'});
           if(apclass) me.class(apclass);
-          $('body').on('click', waiting_handler);
+          $('body').on('click', handler);
+          e.stopPropagation();
         } else {
           opened = false;
           jq.style({'display': 'none'});
           if(apclass) me.rmclass(apclass);
           $('body').rmlistener('click', handler);
         }
-      }
-      var waiting_handler = function(e) {
-        $('body').rmlistener('click', waiting_handler);
-        $('body').on('click', handler);
       }
       me.on('click', handler);
       return this;
@@ -143,6 +140,7 @@ function $j(el) {
         e.stopPropagation();
         if(e.buttons == 2) {
           $('body').child(node);
+          node.style({'z-index': $winui.zindex + 3});
           node.style({
             'display': 'block',
             'position': 'absolute',
