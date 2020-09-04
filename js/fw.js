@@ -138,6 +138,7 @@ function $j(el) {
       this.on('contextmenu', function(e) {
         e.preventDefault();
         e.stopPropagation();
+        e.stopImmediatePropagation();
         if(e.buttons == 2) {
           $('body').child(node);
           node.style({'z-index': $winui.zindex + 3});

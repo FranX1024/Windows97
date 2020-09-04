@@ -2,6 +2,7 @@
   <head>
     <title> Windows 97 </title>
     <link rel="shortcut icon" type="image/png" href="./icons/94.png">
+    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/98ui/style.css">
     <link rel="stylesheet" href="css/terminal/style.css">
     <link rel="stylesheet" href="css/style.css">
@@ -14,17 +15,11 @@
         <img src="./icons/94.png" height="12"> &nbsp;
         <strong> Start </strong>
       </button>
-      <table class="time-display-container">
-        <tbody>
-          <tr>
-            <th id="time-display">
-            </th>
-            <th>
-              <img src="./icons/system/clock.png" height="12">
-            </th>
-          </tr>
-        </tbody>
-      </table>
+      <div class="time-display-container">
+        <span id="time-display">
+        </span>
+        <img src="./icons/system/clock.png" height="12">
+      </div>
     </div>
     <script src="js/fw.js"></script>
     <script src="js/ui.js"></script>
