@@ -1,3 +1,5 @@
+var $_contextmenu_ = new Set();
+
 function $j(el) {
   if(el) return {
     element: el,
@@ -139,6 +141,10 @@ function $j(el) {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
+        for(var it = $_contextmenu_.values(), close_func = null; close_func = it.next().value;) {
+          close_func();
+        }
+        $_contextmenu_.clear();
         $('body').child(node);
         node.style({'z-index': $winui.zindex + 3});
         node.style({
@@ -148,10 +154,13 @@ function $j(el) {
           'left': e.clientX + 'px'
         });
         $('body').on('click', close);
+        $('body').on('contextmenu', close);
+        $_contextmenu_.add(close);
       });
       var close = function() {
         $('body').rmchild(node);
         $('body').rmlistener('click', close);
+        $('body').rmlistener('contextmenu', close);
       }
       return this;
     }
