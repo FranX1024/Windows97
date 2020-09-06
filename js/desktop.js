@@ -105,6 +105,9 @@ const $desktop = {
     .child(
       $new('div').class('menu-button').text('Open terminal here').on('click', $command('terminal C:/desktop'))
     )
+    .child(
+      $new('div').class('menu-button').text('Refresh desktop').on('click', () => $desktop.refresh())
+    )
   );
   function newfile() {
     $prompt('New file', 'Enter the name of the new file...', function(entered, name) {

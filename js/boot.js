@@ -29,7 +29,7 @@ if(!$fs.initialized()) {
 /* load extension settings */
 var $ext = {'*': 'notepad'};
 try {
-  JSON.parse($fs.read('C:/config/ext'));
+  $ext = JSON.parse($fs.read('C:/config/ext'));
 } catch(er) {
   $alert('Fatal Error', 'Could not load C:/config/ext due to following error\n' + er.msg + '\nUntil ext file is fixed, default app for opening all files will be Notepad.');
 }

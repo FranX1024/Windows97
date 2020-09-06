@@ -57,7 +57,7 @@ var $app = {
     exec: function(arg) {
 
       var path = null;
-      if(typeof arg != 'undefined' && arg.length >= 1) path = arg.join(' ');
+      if(arg && arg.constructor == Array && arg.length >= 1) path = arg.join(' ');
 
       var win = $window({
         title: path ? 'Notepad - ' + path : 'Notepad - new file',
