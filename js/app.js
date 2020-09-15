@@ -294,7 +294,7 @@ var $app = {
       var body = $(win.body);
       body.style({'margin': '2px'})
       .child($new('span').class('menu-button').text('About').on('click', () => $alert('About', 'HINT: Select the material and place it inside the frame.\nMade by Dan-Ball, https://dan-ball.jp/en/javagame/dust/')))
-      .child($new('iframe').style({'width': '400', 'height': '456'}).attr('src', '/apps/danball/index.html'));
+      .child($new('iframe').style({'width': '400', 'height': '456'}).attr('src', './apps/danball/index.html'));
     }
   }
 };
