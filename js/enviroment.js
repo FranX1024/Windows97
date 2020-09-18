@@ -1,5 +1,5 @@
 String.prototype.replaceAll = function(a,b){return this.split(a).join(b)}
-export class env {
+class Enviroment {
 constructor() {
 this.envs = {}
 this.set = function(a,b){this.envs[a] = b}
