@@ -15,7 +15,7 @@
 #desktop {
   background: linear-gradient(to right, #000080, #1084d0);
   width: 100%;
-  height: calc(100% - 50px);
+  height: 100%;
   padding: 10px;
 }
 
