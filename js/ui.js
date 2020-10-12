@@ -78,6 +78,7 @@ function $window(cparam) {
 }
 
 var $winui = {
+  movable: null,
   toolbar: document.querySelector('#toolbar'),
   winlist: {},
   zindex: 4,
@@ -100,6 +101,7 @@ var $winui = {
     }
   },
   destroy: function(id) {
+    $winui.movable = null;
     document.body.removeChild(this.winlist[id].container);
     this.toolbar.removeChild(this.winlist[id].tbutton);
     delete this.winlist[id];
@@ -117,18 +119,12 @@ var $winui = {
   mouseMove: function(e) {
     if(e.buttons == 1) {
       var ox = e.clientX - e.movementX, oy = e.clientY - e.movementY;
-      var winid = null, zindex = 0;
-      for(var id in $winui.winlist) {
-        var br = $winui.winlist[id].container.getBoundingClientRect();
-        if(br.top <= oy && br.left <= ox && br.bottom >= oy && br.right >= ox && $winui.winlist[id].container.style.zIndex > zindex) {
-          zindex = $winui.winlist[id].container.style.zIndex;
-          winid = id;
-        }
-      }
+      var winid = $winui.movable;
+
       if(winid == null) return;
       var br = $winui.winlist[winid].titlebar.getBoundingClientRect();
       if(br.top > oy || br.left > ox || br.bottom < oy || br.right < ox) return;
-      if($winui.winlist[winid].container.style.zIndex != $winui.zindex) $winui.focus($winui.winlist[winid]);
+
       var el = $winui.winlist[winid].container;
       var posy = Number(el.style.top.slice(0, -2)) + e.movementY, posx = Number(el.style.left.slice(0, -2)) + e.movementX;
       el.style.top = posy + 'px';
@@ -147,6 +143,12 @@ var $winui = {
         }
       }
       if(winid == null) return;
+      var br = $winui.winlist[winid].titlebar.getBoundingClientRect();
+      if(br.top <= oy && br.left <= ox && br.bottom >= oy && br.right >= ox) {
+        $winui.movable = winid;
+      } else {
+        $winui.movable = null;
+      }
       if($winui.winlist[winid].container.style.zIndex != $winui.zindex) $winui.focus($winui.winlist[winid]);
       $$('iframe').forEach(fw => fw.style({'pointer-events': 'none'}));
     }
