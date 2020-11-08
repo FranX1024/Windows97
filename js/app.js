@@ -266,6 +266,7 @@ var $app = {
       .child(
         $new('button')
         .text(String.fromCharCode(9650))
+	.style({'width': '32px'})
         .class('small-button')
         .on('click', function() {
           if($fs.trim(path) == 'C:') return;
@@ -278,6 +279,7 @@ var $app = {
       .child(
         $new('button')
         .text(String.fromCharCode(9658))
+	.style({'width': '32px'})
         .class('small-button')
         .on('click', refreshContainer)
       )
