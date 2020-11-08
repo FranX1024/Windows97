@@ -265,7 +265,7 @@ var $app = {
       .style({'margin': '2px'})
       .child(
         $new('button')
-        .text(String.fromCharCode(11172))
+        .text(String.fromCharCode(9650))
         .class('small-button')
         .on('click', function() {
           if($fs.trim(path) == 'C:') return;
@@ -277,7 +277,7 @@ var $app = {
       .child(pinput)
       .child(
         $new('button')
-        .text(String.fromCharCode(11171))
+        .text(String.fromCharCode(9658))
         .class('small-button')
         .on('click', refreshContainer)
       )
