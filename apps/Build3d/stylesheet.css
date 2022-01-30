@@ -1,0 +1,103 @@
+body {
+  margin: 0;
+}
+
+#voxelscreen {
+  width: 500px;
+  height: 500px;
+  border: 4px inset;
+}
+.opts-container {
+  vertical-align: top;
+  height: 490px;
+  width: 290px;
+  display: inline-block;
+  border: 4px inset;
+  padding: 5px;
+  margin-left: 5px;
+}
+.container {
+  background-color: #CCC;
+  padding: 8px;
+  width: 823px;
+  height: 513px;
+  user-select: none;
+}
+.opt-range {
+  position: absolute;
+  width: 200px;
+}
+.opt-range-label {
+  width: 70px;
+  display: inline-block;
+}
+button, .button {
+  border: 2px outset;
+  outline: none;
+  min-width: 90px;
+  font-size: 12px;
+}
+button:active {
+  border: 2px inset;
+}
+* {
+  font-family: monospace;
+}
+
+
+/* color picker */
+
+#cpsl {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border: 1px inset;
+  display: inline-block;
+  text-align: left;
+  background-image:
+        linear-gradient(to top, #000 0%, transparent 100%),
+        linear-gradient(to right, #fff 0%, transparent 100%);
+}
+
+#cphue {
+  position: relative;
+  width: 20px;
+  height: 200px;
+  display: inline-block;
+  border: 1px inset;
+  margin-left: 5px;
+  text-align: left;
+  background: linear-gradient(to bottom, #ff0000 0%, #ffff00 17%, #00ff00 33%, #00ffff 50%, #0000ff 67%, #ff00ff 83%, #ff0000 100%);
+}
+
+#slpick {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid;
+  border-radius: 4px;
+  background-color: #CCC;
+}
+
+#huepick {
+  position: absolute;
+  width: 18px;
+  height: 4px;
+  border: 1px solid;
+  border-radius: 2px;
+  background-color: #CCC;
+}
+
+.color {
+  width: 15px;
+  height: 15px;
+  border: 2px inset;
+  background-color: white;
+  margin: 5px;
+  display: inline-block;
+}
+
+#colors {
+  width: 100%;
+  word-wrap: break-word;
+}

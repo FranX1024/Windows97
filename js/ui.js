@@ -33,8 +33,16 @@ function $window(cparam) {
   title_bar_buttons.classList.add('title-bar-controls');
   title_bar_buttons.innerHTML = `
     <button aria-label="Minimize" onclick="$winui.minimize('` + winid + `')"></button>
+    <button aria-label="Maximize" onclick="$winui.maximize('` + winid + `')"></button>
     <button aria-label="Close" onclick="$winui.destroy('` + winid + `')"></button>
   `;
+  if(param.resize == false) {
+      title_bar_buttons.innerHTML = `
+        <button aria-label="Minimize" onclick="$winui.minimize('` + winid + `')"></button>
+        <button disabled>` + String.fromCharCode(9723) + `</button>
+        <button aria-label="Close" onclick="$winui.destroy('` + winid + `')"></button>
+      `;
+  }
 
   var body = document.createElement('div');
   body.style.width = param.width ? param.width + 'px' : '';
@@ -69,7 +77,12 @@ function $window(cparam) {
     'titlebar': title_bar,
     'tbutton': tbutton,
     'body': body,
-    'id': winid
+    'id': winid,
+    'state': 0, // 0 = normal, 1 = maximized
+    'memo': {},
+    'resize': param.resize,
+    'width': param.width,
+    'height': param.height
   };
 
   $winui.add(win);
@@ -116,12 +129,52 @@ var $winui = {
     this.winlist[id].tbutton.onclick = Function('$winui.minimize("' + id + '")');
     this.focus(this.winlist[id]);
   },
+  maximize: function(id) {
+    let el = this.winlist[id].container;
+    this.winlist[id].state = 1;
+    this.winlist[id].memo = {
+      'top': el.style.top,
+      'left': el.style.left
+    };
+    $(el).style({
+        'width': 'calc(100% - 6px)',
+        'height': 'calc(100% - 37px)',
+        'top': '0px',
+        'left': '0px'
+    });
+    $(this.winlist[id].body).style({
+        'width': 'calc(100% - 4px)',
+        'height': 'calc(100% - 24px)',
+        'resize': 'none'
+    });
+    let maxbtn = this.winlist[id].container.querySelector('button[aria-label="Maximize"]');
+    maxbtn.setAttribute('aria-label', 'Restore');
+    maxbtn.onclick = Function("$winui.restore('" + id + "')");
+  },
+  restore: function(id) {
+    this.winlist[id].state = 0;
+    $(this.winlist[id].container).style({
+          'top': this.winlist[id].memo.top,
+          'left': this.winlist[id].memo.left,
+          'width': '',
+          'height': ''
+    });
+    $(this.winlist[id].body).style({
+        'width': this.winlist[id].width + 'px',
+        'height': this.winlist[id].height + 'px',
+        'resize': (this.winlist[id].resize ? 'both' : 'none')
+    });
+    let maxbtn = this.winlist[id].container.querySelector('button[aria-label="Restore"]');
+    maxbtn.setAttribute('aria-label', 'Maximize');
+    maxbtn.onclick = Function("$winui.maximize('" + id + "')");
+  },
   mouseMove: function(e) {
     if(e.buttons == 1) {
       var ox = e.clientX - e.movementX, oy = e.clientY - e.movementY;
       var winid = $winui.movable;
 
       if(winid == null) return;
+      if($winui.winlist[winid].state == 1) return;
       var br = $winui.winlist[winid].titlebar.getBoundingClientRect();
       if(br.top > oy || br.left > ox || br.bottom < oy || br.right < ox) return;
 

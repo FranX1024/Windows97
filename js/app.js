@@ -12,7 +12,7 @@ var $app = {
       var input = $new('input').class('terminal-input');
       var prompt = $new('span').class('terminal-prompt').text('C:/>' + String.fromCharCode(160));
       var body = $(win.body).class('terminal').child(output).child(
-        $new('table').style({'width': '100%', 'border-spacing': '0', 'margin-top': '3px'})
+        $new('table').style({'width': '100%', 'border-spacing': '0'})
         .child(
           $new('tbody')
           .child(
@@ -138,7 +138,7 @@ var $app = {
       if(env['select_file'] == 'yes') {
         $(win.titlebar).find('.title-bar-controls').rmchild($(win.titlebar).find('[aria-label="Minimize"]'))
       }
-      var path = 'C:';
+      var path = env.path || 'C:';
       if(arg && arg.constructor == Array && arg.length >= 1) path = arg.join(' ');
       var pinput = $new('input').style({
         'width': 'calc(100% - 70px)',
@@ -292,7 +292,7 @@ var $app = {
     title: 'Dan-Ball',
     icon: './apps/danball/icon.ico',
     exec: function() {
-      var win = $window({title: 'Dan-Ball Physics simulator', width: 404, height: 472, resize: false});
+      var win = $window({title: 'Dan-Ball Physics simulator', width: 404, height: 475, resize: false});
       var body = $(win.body);
       body.style({'margin': '2px'})
       .child($new('span').class('menu-button').text('About').on('click', () => $alert('About', 'HINT: Select the material and place it inside the frame.\nMade by Dan-Ball, https://dan-ball.jp/en/javagame/dust/')))
@@ -307,6 +307,16 @@ var $app = {
       var body = $(win.body);
       body.style({'margin': '2px'})
       .child($new('iframe').style({'width': '640', 'height': '400'}).attr('src', './apps/wolf3d/index.html'));
+    }
+  },
+  'build3d': {
+    title: 'Builder 3D',
+    icon: './apps/Build3d/icon.png',
+    exec: function() {
+        var win = $window({title: 'Builder 3D - FranX1024', width: 845, height: 535, resize: false});
+        var body = $(win.body);
+        body.style({'margin': '2px'})
+        .child($new('iframe').style({'width': '840', 'height': '530'}).attr('src', './apps/Build3d/index.html'));
     }
   }
 };

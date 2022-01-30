@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="./stylesheet.css">
+  </head>
+  <body>
+    <div class="container">
+      <canvas width="500" height="500" id="voxelscreen">
+      </canvas><div class="opts-container">
+        <button onclick="export_model()"> Export </button>
+        <button onclick="import_model()"> Import </button>
+        <button onclick="model_clear()"> Clear </button>
+        <form hidden> <input type="file" id="file_input" onchange='onChooseFile(event, onFileLoad.bind(this, "contents"))' hidden> </form>
+        <hr>
+	      <span class="opt-range-label"> FOV: </span>
+        <input type="range" max="120" value="90" id="fov" class="opt-range"> <br>
+        <span class="opt-range-label"> DIST: </span>
+        <input type="range" max="6" value="2" id="dist" class="opt-range"> <br>
+        <span class="opt-range-label"> Y-POS: </span>
+        <input type="range" max="16" value="0" id="ypos" class="opt-range"> <br>
+        <span class="opt-range-label"> MOUSE: </span>
+        <input type="range" max="20" value="15" id="mouse" class="opt-range"> <br>
+        <br> <hr> <br>
+        <center>
+          <div id="cpsl">
+            <span id="slpick"></span>
+          </div>
+          <div id="cphue">
+            <span id="huepick"></span>
+          </div>
+        </center>
+        <br>
+        <br>
+        <div id="colors">
+        </div>
+      </div>
+    </div>
+    <script src="colorpicker.js?v=1"></script>
+    <script src="engine.js?v=1"></script>
+    <script src="main.js?v=1"></script>
+    <script src="app.js?v=1"></script>
+  </body>
+</html>

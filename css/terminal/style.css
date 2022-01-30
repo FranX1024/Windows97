@@ -1,14 +1,11 @@
 .terminal {
-  border: none;
-  outline: none;
-  padding: 2px;
-  margin: 2px;
   background-color: black;
   color: white;
   font-weight: bold;
   word-wrap: break-word;
   font-size: 10px;
   font-family: monospace;
+  margin: 2px;
 }
 
 .terminal-input {

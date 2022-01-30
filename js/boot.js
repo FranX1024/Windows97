@@ -6,6 +6,7 @@ if(!$fs.initialized()) {
   $fs.mkdir('C:/apps');
   $fs.mkdir('C:/documents');
   $fs.mkdir('C:/appdata');
+  $fs.mkdir('C:/appdata/3d_models')
   $fs.mkdir('C:/config');
   $fs.write('C:/config/ext', '{"*":"notepad","txt":"notepad","js":"javascript"}');
 }
