@@ -28,6 +28,7 @@ function $window(cparam) {
   var title_bar_text = document.createElement('div');
   title_bar_text.classList.add('title-bar-text');
   title_bar_text.innerText = param.title;
+  title_bar_text.style.maxWidth = param.width + 'px';
 
   var title_bar_buttons = document.createElement('div');
   title_bar_buttons.classList.add('title-bar-controls');
@@ -95,21 +96,26 @@ var $winui = {
   toolbar: document.querySelector('#toolbar'),
   winlist: {},
   zindex: 4,
+  focused: null,
   add: function(win) {
     this.winlist[win.id] = win;
     this.focus(win);
     this.toolbar.appendChild(win.tbutton);
   },
   focus: function(win) {
+    this.focused = win;
+    if(win.titlebar.classList.contains('active')) return;
     this.zindex += 2;
     this.winlist[win.id].container.style.zIndex = this.zindex;
     this.toolbar.style.zIndex = this.zindex + 1;
+    win.body.querySelectorAll('iframe').forEach(el => el.style.pointerEvents = 'auto');
     if(win.titlebar.classList.contains('inactive')) win.titlebar.classList.remove('inactive');
     if(!win.tbutton.classList.contains('active')) win.tbutton.classList.add('active');
     for(var id in this.winlist) {
       if(id != win.id) {
         if(!this.winlist[id].titlebar.classList.contains('inactive')) this.winlist[id].titlebar.classList.add('inactive');
         if(this.winlist[id].tbutton.classList.contains('active')) this.winlist[id].tbutton.classList.remove('active');
+        this.winlist[id].body.querySelectorAll('iframe').forEach(el => el.style.pointerEvents = 'none');
       }
     }
   },
@@ -203,11 +209,11 @@ var $winui = {
         $winui.movable = null;
       }
       if($winui.winlist[winid].container.style.zIndex != $winui.zindex) $winui.focus($winui.winlist[winid]);
-      $$('iframe').forEach(fw => fw.style({'pointer-events': 'none'}));
+      $$('iframe').forEach(fw => fw.style({'pointer-events': 'none'})); // <---
     }
   },
   mouseUp: function() {
-    $$('iframe').forEach(fw => fw.style({'pointer-events': 'auto'}));
+    $$('iframe').forEach(fw => (fw.parents().includes($winui.focused.body) ? fw.style({'pointer-events': 'auto'}) : null)); // <---
   }
 }
 

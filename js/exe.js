@@ -50,9 +50,10 @@ var $cmd = {
   'help': function(arg, env) {
     return "Available commands:\n" + Object.keys(this).map(item => '> ' + item).join('\n');
   },
-  'javascript': function(arg, env) {
+  'js': function(arg, env) {
+    var path = $fs.join(env['cd'], arg.join(' '));
     try {
-      eval($fs.read(arg.join(' ')));
+      eval($fs.read(path));
     } catch(er) {
       console.log(er.stack);
       $alert('Error', er.message);

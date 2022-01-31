@@ -62,7 +62,8 @@ var $app = {
       var win = $window({
         title: path ? 'Notepad - ' + path : 'Notepad - new file',
         width: 640,
-        height: 480
+        height: 480,
+        resize: true
       });
 
       function save() {
@@ -117,7 +118,8 @@ var $app = {
       var input = $new('textarea').style({
         'width': '100%',
         'height': 'calc(100% - 20px)',
-        'font-family': 'monospace'
+        'font-family': 'monospace',
+        'resize': 'none'
       });
 
       if(path != null) input.attr('value', $fs.read(path));
@@ -317,6 +319,16 @@ var $app = {
         var body = $(win.body);
         body.style({'margin': '2px'})
         .child($new('iframe').style({'width': '840', 'height': '530'}).attr('src', './apps/Build3d/index.html'));
+    }
+  },
+  'maze': {
+    title: 'Maze',
+    icon: './apps/maze/icon.png',
+    exec: function() {
+        var win = $window({title: 'Maze - ~;#^$&/~', width: 480, height: 480, resize: false});
+        var body = $(win.body);
+        body.style({'margin': '2px'})
+        .child($new('iframe').style({'width': '100%', 'height': '100%', 'border': 'none'}).attr('src', './apps/maze/index.html'));
     }
   }
 };

@@ -35,7 +35,7 @@
 }
 
 .icon {
-  width: 64px;
+  width: 80px;
   user-select: none;
   text-align: center;
   outline: none;
@@ -45,24 +45,29 @@
   color: white;
   font-size: 11px;
   font-weight: normal;
-  padding: 2px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  margin: 5px;
 }
 
 .icon-title-on-white {
   color: black;
   font-size: 11px;
   font-weight: normal;
-  padding: 2px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  margin: 5px;
 }
 
-.icon:focus {
+.icon:focus img {
   filter: brightness(0.5) contrast(1.2) sepia(100%) hue-rotate(180deg) saturate(20);
+}
+.icon:focus .icon-title-on-white {
+    background-color: #09f;
+    color: white;
+    text-overflow: clip !important;
+    white-space: break;
+}
+.icon:focus .icon-title {
+    color: #09f;
+    text-overflow: clip !important;
+    white-space: break;
 }
 
 body {
@@ -105,4 +110,9 @@ body {
   min-height: 20px;
   min-width: 32px;
   padding: 0;
+}
+
+.title-bar-text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

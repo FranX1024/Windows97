@@ -39,6 +39,15 @@ function $j(el) {
     parent() {
       return $j(this.element.parentElement);
     },
+    parents() {
+        let arr = [];
+        let el = this.element.parentElement;
+        while(el != null) {
+            arr.push(el);
+            el = el.parentElement;
+        }
+        return arr;
+    },
     select() {
       this.element.select();
       return this;

@@ -64,25 +64,19 @@ const $desktop = {
         $new('div').class('menu-button').text('Delete').on('click', $command('delete ' + path))
       )
     }
-    var icon = $new('table')
+    var icon = $new('div')
       .class('icon')
       .style({'position': 'absolute', 'top': y + 'px', 'left': x + 'px'})
       .attr('tabIndex', '1')
       .child(
-        $new('tbody')
-        .child(
-          $new('tr')
-          .child(
-            $new('img')
-            .attr('draggable', 'false')
-            .attr('src', icon)
-          )
-        )
-        .child(
-          $new('tr')
-          .class('icon-title')
-          .text(title)
-        )
+        $new('img')
+        .class('icon-icon')
+        .attr('src', icon)
+      )
+      .child(
+        $new('div')
+        .class('icon-title')
+        .text(title)
       )
       .on('click', function(e) {
         if(e.detail == 2) exec();
