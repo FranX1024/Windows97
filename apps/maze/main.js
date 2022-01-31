@@ -472,21 +472,21 @@ function update_game() {
   rotation(0);
   ctx.drawImage(img.background, 0, 0, 480, 480);
   // A
-  if(key[65]) {
+  if(key[65] || key[37]) {
     observer.rot += Math.PI * 0.0008 * ftime;
     if(observer.rot >= Math.PI / 2) observer.rot -= Math.PI * 2;
   }
   // D
-  if(key[68]) {
+  if(key[68] || key[39]) {
     observer.rot -= Math.PI * 0.0008 * ftime;
     if(observer.rot < 0) observer.rot += Math.PI * 2;
   }
   // W
-  if(key[87]) {
+  if(key[87] || key[38]) {
     forward(-0.006 * ftime);
   }
   // S
-  if(key[83]) {
+  if(key[83] || key[40]) {
     forward(0.006 * ftime);
   }
   generate();
