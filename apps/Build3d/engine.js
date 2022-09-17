@@ -4,6 +4,7 @@ var canvas = document.getElementById('voxelscreen');
 var ofscr =  document.createElement('canvas');
 var ctx = canvas.getContext('2d');
 var ofc = ofscr.getContext('2d');
+ofc.strokeStyle = 'rgba(0, 0, 0, .5)'
 
 ctx.imageSmoothingEnabled = false;
 //ctx.scale(2, 2);
@@ -20,18 +21,9 @@ function drawpoly(p1, p2, p4, p3, color) {
   ofc.lineTo(p3.x, p3.y);
   ofc.lineTo(p4.x, p4.y);
   ofc.lineTo(p2.x, p2.y);
+  ofc.lineTo(p1.x, p1.y);  
   ofc.closePath();
   ofc.fill();
-  ofc.beginPath();
-  ofc.moveTo(p1.x, p1.y);
-  ofc.lineTo(p3.x, p3.y);
-  ofc.moveTo(p3.x, p3.y);
-  ofc.lineTo(p4.x, p4.y);
-  ofc.moveTo(p4.x, p4.y);
-  ofc.lineTo(p2.x, p2.y);
-  ofc.moveTo(p2.x, p2.y);
-  ofc.lineTo(p1.x, p1.y);
-  ofc.closePath();
   ofc.stroke();
 }
 

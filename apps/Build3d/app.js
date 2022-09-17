@@ -1,3 +1,5 @@
+
+ofc.strokeStyle = 'rgba(0, 0, 0, .15)'
 setInterval(update3DB, 10);
 loadMap(map);
 

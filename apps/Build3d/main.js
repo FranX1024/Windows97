@@ -90,6 +90,12 @@ String.prototype.lpad = function(n, c) {
   return s + this;
 }
 
+function color2hex(val, aa) {
+    return '#' + Math.floor(((val >> 16) & 255)*aa).toString(16).lpad(2, '0') +
+        Math.floor(((val >> 8) & 255)*aa).toString(16).lpad(2, '0') +
+        Math.floor((val & 255)*aa).toString(16).lpad(2, '0');
+}
+
 /* function for loading a 3bm (bitmap format for 93D ) */
 
 function loadMap(map) {
@@ -101,63 +107,65 @@ function loadMap(map) {
       for(var z = 0; z < (1 << EDGE_L2); z++) {
         if(map[getPos(x, y, z)] != EMPTY) {
 
-          var color = '#' + ((map[getPos(x, y, z)] >> 16) & 255).toString(16).lpad(2, '0') +
-                            ((map[getPos(x, y, z)] >> 8) & 255).toString(16).lpad(2, '0') +
-                            (map[getPos(x, y, z)] & 255).toString(16).lpad(2, '0');
+	    var xx = map[getPos(x, y, z)];
+            var color1 = color2hex(xx, 1);
+	    var color2 = color2hex(xx, .95);
+	    var color3 = color2hex(xx, .9);
+	    var color4 = color2hex(xx, .8);
 
           if(isEmpty(x + 1, y, z)) plains3D.push(new Plain(
-
+	      // right
             new Point3D(x + 1, y + 1, z + 1),
             new Point3D(x + 1, y + 1, z),
             new Point3D(x + 1, y, z),
             new Point3D(x + 1, y, z + 1),
 
-            color, new Point3D(x, y, z), new Point3D(x + 1, y, z)
+            color2, new Point3D(x, y, z), new Point3D(x + 1, y, z)
           ));
           if(isEmpty(x, y - 1, z)) plains3D.push(new Plain(
-
+	      // down
             new Point3D(x, y, z),
             new Point3D(x, y, z + 1),
             new Point3D(x + 1, y, z + 1),
             new Point3D(x + 1, y, z),
 
-            color, new Point3D(x, y, z), new Point3D(x, y - 1, z)
+            color4, new Point3D(x, y, z), new Point3D(x, y - 1, z)
           ));
           if(isEmpty(x, y, z + 1)) plains3D.push(new Plain(
-
+	      // back
             new Point3D(x, y + 1, z + 1),
             new Point3D(x + 1, y + 1, z + 1),
             new Point3D(x + 1, y, z + 1),
             new Point3D(x, y, z + 1),
 
-            color, new Point3D(x, y, z), new Point3D(x, y, z + 1)
+              color3, new Point3D(x, y, z), new Point3D(x, y, z + 1)
           ));
           if(isEmpty(x - 1, y, z)) plains3D.push(new Plain(
-
+	      // left
             new Point3D(x, y, z),
             new Point3D(x, y, z + 1),
             new Point3D(x, y + 1, z + 1),
             new Point3D(x, y + 1, z),
 
-            color, new Point3D(x, y, z), new Point3D(x - 1, y, z)
+            color2, new Point3D(x, y, z), new Point3D(x - 1, y, z)
           ));
           if(isEmpty(x, y + 1, z)) plains3D.push(new Plain(
-
+	      // up
             new Point3D(x, y + 1, z),
             new Point3D(x + 1, y + 1, z),
             new Point3D(x + 1, y + 1, z + 1),
             new Point3D(x, y + 1, z + 1),
 
-            color, new Point3D(x, y, z), new Point3D(x, y + 1, z)
+            color1, new Point3D(x, y, z), new Point3D(x, y + 1, z)
           ));
           if(isEmpty(x, y, z - 1)) plains3D.push(new Plain(
-
+	      // front
             new Point3D(x, y, z),
             new Point3D(x + 1, y, z),
             new Point3D(x + 1, y + 1, z),
             new Point3D(x, y + 1, z),
 
-            color, new Point3D(x, y, z), new Point3D(x, y, z - 1)
+            color3, new Point3D(x, y, z), new Point3D(x, y, z - 1)
           ));
         }
       }
@@ -186,7 +194,7 @@ function render() {
     projections.push(new Plain(...plains3D[i].p.map(x => camera.project(x)), dist(camera, plains3D[i]), plains3D[i].pos1, plains3D[i].pos2));
   }
 
-  ctx.fillStyle = '#6699ff';
+  ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
   ctx.drawImage(ofscr, 0, 0);
@@ -196,7 +204,7 @@ function render() {
 }
 
 var conf = {
-	TILE_COLOR : 255, // color of tiles to be placed
+	TILE_COLOR : 0xFFFFFF, // color of tiles to be placed
 	MOUSE_SENSITIVITY: 15,
 }
 
@@ -209,8 +217,8 @@ var update3DB = function() {
 
   if(key[87]) camera.rotate(0, -Math.PI / 90);
   if(key[83]) camera.rotate(0, Math.PI / 90);
-  if(key[68]) camera.rotate(-Math.PI / 90, 0);
-  if(key[65]) camera.rotate(Math.PI / 90, 0);
+  if(key[68]) camera.rotate(Math.PI / 90, 0);
+  if(key[65]) camera.rotate(-Math.PI / 90, 0);
 
   /* mouse stuff */
 
@@ -231,7 +239,7 @@ var update3DB = function() {
 
     if(pos1 != -1) {
 
-      if(mouse.left) map[getPos(pos2.x, pos2.y, pos2.z)] = conf.TILE_COLOR;
+	if(mouse.left && pos2.x >= 0 && pos2.y >= 0 && pos2.z >= 0 && pos2.x < (1<<EDGE_L2) && pos2.y < (1<<EDGE_L2) && pos2.z < (1<<EDGE_L2)) map[getPos(pos2.x, pos2.y, pos2.z)] = conf.TILE_COLOR;
       if(mouse.right) map[getPos(pos1.x, pos1.y, pos1.z)] = EMPTY;
 
       mouse.count = conf.MOUSE_SENSITIVITY;

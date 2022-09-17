@@ -43,7 +43,7 @@ var picker = {
 
  hue: 0,
  slx: 0,
- sly: 0,
+ sly: 100,
 
  cpsl: document.querySelector('#cpsl'),
  cphue: document.querySelector('#cphue'),
