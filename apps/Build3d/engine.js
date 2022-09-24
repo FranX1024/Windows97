@@ -4,7 +4,6 @@ var canvas = document.getElementById('voxelscreen');
 var ofscr =  document.createElement('canvas');
 var ctx = canvas.getContext('2d');
 var ofc = ofscr.getContext('2d');
-ofc.strokeStyle = 'rgba(0, 0, 0, .5)'
 
 ctx.imageSmoothingEnabled = false;
 //ctx.scale(2, 2);
@@ -14,7 +13,7 @@ ofscr.height = HEIGHT;
 
 /* function for drawing 4-sided polygons */
 
-function drawpoly(p1, p2, p4, p3, color) {
+function drawpoly(p1, p2, p4, p3, color, strokke) {
   ofc.fillStyle = color;
   ofc.beginPath();
   ofc.moveTo(p1.x, p1.y);
@@ -24,7 +23,7 @@ function drawpoly(p1, p2, p4, p3, color) {
   ofc.lineTo(p1.x, p1.y);  
   ofc.closePath();
   ofc.fill();
-  ofc.stroke();
+  if(strokke) ofc.stroke();
 }
 
 class Point2D {

@@ -173,7 +173,9 @@ function loadMap(map) {
   }
 }
 
-ofc.lineWidth = '1';
+ofc.lineWidth = 1;
+ofc.strokeStyle = 'black';
+
 ctx.font = '12px Monospace';
 
 /* function for rendering screen */
@@ -187,9 +189,17 @@ function render() {
 
   plains3D.sort((a, b) => dist(camera, b) - dist(camera, a));
 
+    // selected square
+    var selectedi;
+
+    for(var i = 0; i < plains3D.length; i++) {
+
+	if(inside(mouse, {p:plains3D[i].p.map(x => camera.project(x))})) selectedi = i;
+  }
+    
   for(var i = 0; i < plains3D.length; i++) {
 
-    drawpoly(...plains3D[i].p.map(x => camera.project(x)), plains3D[i].color);
+      drawpoly(...plains3D[i].p.map(x => camera.project(x)), plains3D[i].color, i == selectedi);
 
     projections.push(new Plain(...plains3D[i].p.map(x => camera.project(x)), dist(camera, plains3D[i]), plains3D[i].pos1, plains3D[i].pos2));
   }

@@ -1,5 +1,3 @@
-
-ofc.strokeStyle = 'rgba(0, 0, 0, .15)'
 setInterval(update3DB, 10);
 loadMap(map);
 
@@ -9,7 +7,7 @@ document.getElementById('fov').oninput = function(e) {
 }
 document.getElementById('dist').oninput = function(e) {
 
-  camera.dist = Number(e.target.value);
+  camera.dist = Number(e.target.value*.1);
 }
 document.getElementById('ypos').oninput = function(e) {
 
