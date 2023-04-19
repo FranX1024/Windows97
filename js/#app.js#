@@ -329,13 +329,9 @@ var $app = {
             var body = $(win.body);
             body.style({'margin': '2px'})
 		.child($new('iframe').style({'width': '100%', 'height': '100%', 'border': 'none'}).attr('src', './apps/maze/index.html'));
-	},
-    },
-    'test123': {
-	title: 'FidgetSpinzz ti je reko',
-	icon: './apps/fidget.png',
-	exec: function() {
-	    $alert('Rekao sam ti.', 'FidgetSpinzz');
 	}
+    },
+    'box3d': {
+	title: ''
     }
 };
