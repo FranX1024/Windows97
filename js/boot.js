@@ -8,7 +8,22 @@ if(!$fs.initialized()) {
   $fs.mkdir('C:/appdata');
   $fs.mkdir('C:/appdata/3d_models')
   $fs.mkdir('C:/config');
-  $fs.write('C:/config/ext', '{"*":"notepad","txt":"notepad","js":"js"}');
+    $fs.write('C:/config/ext', '{"*":"notepad","txt":"notepad","js":"js"}');
+    (async function() {
+	let fnames = [
+	    'bridge.vmd',
+	    'evilredthing.vmd',
+	    'greenshore.vmd',
+	    'hell.vmd',
+	    'winterhouse.vmd'
+	];
+	console.log('Downloading Build3D models...');
+	for(let i = 0; i < fnames.length; i++) {
+	    $fs.write(
+		'C:/appdata/3d_models/' + fnames[i],
+		await $fs.readFromServer('/apps/Build3d/models/' + fnames[i]));
+	}
+    })();
 }
 (function() {
   /* load apps */

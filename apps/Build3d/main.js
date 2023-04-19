@@ -109,9 +109,9 @@ function loadMap(map) {
 
 	    var xx = map[getPos(x, y, z)];
             var color1 = color2hex(xx, 1);
-	    var color2 = color2hex(xx, .95);
-	    var color3 = color2hex(xx, .9);
-	    var color4 = color2hex(xx, .8);
+	    var color2 = color2hex(xx, .9);
+	    var color3 = color2hex(xx, .8);
+	    var color4 = color2hex(xx, .7);
 
           if(isEmpty(x + 1, y, z)) plains3D.push(new Plain(
 	      // right
@@ -210,7 +210,6 @@ function render() {
   ctx.drawImage(ofscr, 0, 0);
 
   ctx.fillStyle = '#FFFFFF';
-  ctx.fillText("[Use WASD keys to rotate]", 10, 20);
 }
 
 var conf = {
@@ -221,14 +220,19 @@ var conf = {
 var key = {};
 var mouse = {left: false, right: false, x: 0, y: 0, count: 0};
 
-var update3DB = function() {
+var oldtime = null;
 
+var update3DB = function() {
+    let curtime = new Date().getTime();
+    let tspan = oldtime ? curtime - oldtime : 100;
+    oldtime = curtime;
+    
   /* rotation stuff */
 
-  if(key[87]) camera.rotate(0, -Math.PI / 90);
-  if(key[83]) camera.rotate(0, Math.PI / 90);
-  if(key[68]) camera.rotate(Math.PI / 90, 0);
-  if(key[65]) camera.rotate(-Math.PI / 90, 0);
+  if(key[87]) camera.rotate(0, -Math.PI * .001*tspan);
+    if(key[83]) camera.rotate(0, Math.PI * .001*tspan);
+  if(key[68]) camera.rotate(Math.PI * .001*tspan, 0);
+  if(key[65]) camera.rotate(-Math.PI * .001*tspan, 0);
 
   /* mouse stuff */
 
@@ -260,7 +264,9 @@ var update3DB = function() {
 
   if(mouse.count) mouse.count--;
 
-  render();
+    render();
+
+    requestAnimationFrame(update3DB);
 }
 
 var cbr;

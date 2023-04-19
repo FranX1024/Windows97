@@ -315,10 +315,10 @@ var $app = {
 	title: 'Builder 3D',
 	icon: './apps/Build3d/icon.png',
 	exec: function() {
-            var win = $window({title: 'Builder 3D - FranX1024', width: 845, height: 535, resize: false});
+            var win = $window({title: 'Builder 3D - FranX1024', width: 840, height: 530, resize: false});
             var body = $(win.body);
-            body.style({'margin': '2px'})
-		.child($new('iframe').style({'width': '840', 'height': '530'}).attr('src', './apps/Build3d/index.html'));
+            body.style({'margin': '0'})
+		.child($new('iframe').style({'width': '840', 'height': '530', 'border': 'none'}).attr('src', './apps/Build3d/index.html'));
 	}
     },
     'maze': {
@@ -331,11 +331,18 @@ var $app = {
 		.child($new('iframe').style({'width': '100%', 'height': '100%', 'border': 'none'}).attr('src', './apps/maze/index.html'));
 	},
     },
-    'test123': {
-	title: 'FidgetSpinzz ti je reko',
-	icon: './apps/fidget.png',
+    'trollbox3d': {
+	title: 'Trollbox 3D',
+	icon: './icons/apps/trollbox3d.png',
 	exec: function() {
-	    $alert('Rekao sam ti.', 'FidgetSpinzz');
+	    let win = $window({
+		width: 1000,
+		height: 600,
+		title: 'Trollbox 3D',
+		resize: false
+	    });
+	    win.body.style.margin = '0';
+		win.body.innerHTML = '<iframe src="https://trollbox3d.sen314.repl.co/" style="width:1000px;height:600px;border:none"></iframe>'
 	}
     }
 };

@@ -6,6 +6,7 @@ var ctx = canvas.getContext('2d');
 var ofc = ofscr.getContext('2d');
 
 ctx.imageSmoothingEnabled = false;
+ofc.imageSmoothingEnabled = false;
 //ctx.scale(2, 2);
 
 ofscr.width = WIDTH;
@@ -13,17 +14,50 @@ ofscr.height = HEIGHT;
 
 /* function for drawing 4-sided polygons */
 
+function polyadjpoint(pt, midp) {
+    let p2 = {
+	x: pt.x + (pt.x - midp.x) * .05,
+	y: pt.y + (pt.y - midp.y) * .05
+    };
+    return p2;
+}
+function polyudjpoint(pt, midp) {
+    let p2 = {
+	x: pt.x - (pt.x - midp.x) * .07,
+	y: pt.y - (pt.y - midp.y) * .07
+    };
+    return p2;
+}
 function drawpoly(p1, p2, p4, p3, color, strokke) {
+    let midp = {
+	x: (p1.x + p2.x + p3.x + p4.x) * .25,
+	y: (p1.y + p2.y + p3.y + p4.y) * .25
+    };
+    let pp1 = polyadjpoint(p1, midp);
+    let pp2 = polyadjpoint(p2, midp);
+    let pp3 = polyadjpoint(p3, midp);
+    let pp4 = polyadjpoint(p4, midp);
   ofc.fillStyle = color;
   ofc.beginPath();
-  ofc.moveTo(p1.x, p1.y);
-  ofc.lineTo(p3.x, p3.y);
-  ofc.lineTo(p4.x, p4.y);
-  ofc.lineTo(p2.x, p2.y);
-  ofc.lineTo(p1.x, p1.y);  
+  ofc.moveTo(pp1.x, pp1.y);
+  ofc.lineTo(pp3.x, pp3.y);
+  ofc.lineTo(pp4.x, pp4.y);
+  ofc.lineTo(pp2.x, pp2.y);
   ofc.closePath();
   ofc.fill();
-  if(strokke) ofc.stroke();
+    if(strokke) {
+	let pp1 = polyudjpoint(p1, midp);
+	let pp2 = polyudjpoint(p2, midp);
+	let pp3 = polyudjpoint(p3, midp);
+	let pp4 = polyudjpoint(p4, midp);
+  ofc.beginPath();
+  ofc.moveTo(pp1.x, pp1.y);
+  ofc.lineTo(pp3.x, pp3.y);
+  ofc.lineTo(pp4.x, pp4.y);
+  ofc.lineTo(pp2.x, pp2.y);
+  ofc.closePath();
+	ofc.stroke();
+    }
 }
 
 class Point2D {

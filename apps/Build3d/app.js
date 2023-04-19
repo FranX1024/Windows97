@@ -1,4 +1,4 @@
-setInterval(update3DB, 10);
+requestAnimationFrame(update3DB);
 loadMap(map);
 
 document.getElementById('fov').oninput = function(e) {
@@ -48,7 +48,7 @@ function export_model() {
     parent.$prompt('Export model', 'Enter filename (*.vmd) ...', function(success, input) {
         if(!success) return;
         if(!input.endsWith('.vmd')) input += '.vmd';
-        parent.$fs.write('C:/appdata/3d_models/' + input, btoa(raw_data));
+        parent.$fs.write('C:/appdata/3d_models/' + input, raw_data);
         parent.$alert('Export model', 'Model saved to C:/appdata/3d_models/' + input);
     });
   } else {
@@ -63,7 +63,7 @@ function import_model() {
         'select_file': 'yes',
         'path': 'C:/appdata/3d_models',
         'onselect': function(path) {
-            let raw_data = atob(parent.$fs.read(path));
+            let raw_data = parent.$fs.read(path);
             for(var i = 0; i < 1 << (EDGE_L2 * 3); i++) {
                 map[i] = (raw_data.charCodeAt(i * 4) << 24) + (raw_data.charCodeAt(i * 4 + 1) << 16) + (raw_data.charCodeAt(i * 4 + 2) << 8) + raw_data.charCodeAt(i * 4 + 3);
             }
